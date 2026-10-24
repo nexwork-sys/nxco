@@ -9,8 +9,15 @@ types.setTypeParser(1700, v => parseFloat(v)); // numeric
 let pool = null;
 
 function buildPoolConfig() {
-    // Render's *internal* database URL needs no SSL; the *external* one does. Set DB_SSL=true for external/other hosts.
-    const ssl = String(process.env.DB_SSL || '').toLowerCase() === 'true' ? { rejectUnauthorized: false } : undefined;
+    // Render ke internal URL par SSL ki zaroorat nahi hoti, external ke liye DB_SSL=true set kar sakte hain.
+    // Agar URL mein render.com hai aur internal connection hai, toh SSL disable rakhein taaki auth/SSL error na aaye.
+    const isRenderInternal = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('oregon-postgres.render.com');
+    const sslEnv = String(process.env.DB_SSL || '').toLowerCase() === 'true';
+    
+    const ssl = (sslEnv || !isRenderInternal && process.env.DATABASE_URL?.includes('oregon-postgres.render.com')) 
+        ? { rejectUnauthorized: false } 
+        : undefined;
+
     const base = { max: 10, ...(ssl ? { ssl } : {}) };
 
     if (process.env.DATABASE_URL) return { connectionString: process.env.DATABASE_URL, ...base };
