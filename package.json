@@ -1,0 +1,28 @@
+{
+  "name": "nxco-backend",
+  "version": "2.0.0",
+  "description": "NXCO — Node.js/Express/PostgreSQL API with Cloudinary image storage (Admin, Marketing, Supervisor/Manager/Operator, Driver)",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "migrate": "node src/utils/migrate.js",
+    "seed": "node src/utils/seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.0",
+    "pg": "^8.13.1",
+    "pdfkit": "^0.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

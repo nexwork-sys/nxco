@@ -1,0 +1,23 @@
+# Optional Render Blueprint: New -> Blueprint -> pick this repo. Creates the Postgres DB + the API together.
+databases:
+  - name: nxco-db
+    plan: free
+    databaseName: nxco
+services:
+  - type: web
+    name: nxco-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: { name: nxco-db, property: connectionString }
+      - key: JWT_SECRET
+        generateValue: true
+      - { key: CLOUDINARY_CLOUD_NAME, sync: false }
+      - { key: CLOUDINARY_API_KEY, sync: false }
+      - { key: CLOUDINARY_API_SECRET, sync: false }
+      - { key: CLOUDINARY_FOLDER, value: nxco }
+      - { key: COMPANY_NAME, value: NXCO }
+      - { key: CORS_ORIGINS, value: "*" }
